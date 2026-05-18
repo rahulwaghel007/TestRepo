@@ -1,28 +1,54 @@
-import java.util.Scanner;
+import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+
+import javax.servlet.http.HttpServletRequest;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import javax.xml.bind.JAXBContext;
+
 public class Test {
 
-    // Method to add two numbers
-    public static int add(int a, int b) {
-        return a + b;
+    private String status;
+
+    @PostConstruct
+    public void init() {
+        status = "initialized";
     }
 
-    public static void main(String[] args) {
+    @GET
+    @Path("/hello")
+    public Response hello() {
+        return Response.ok("Hello").build();
+    }
 
-       
-        System.out.println("Hello, Java is working!");
+    public void testServlet(HttpServletRequest request) {
+        assertNotNull(request);
+    }
 
-   d
-        int result = add(5, 3);
-        System.out.println("Sum of 5 and 3 is: " + result);
+    public void validate(@Valid @NotNull String input) {
+        assertNotNull(input);
+    }
 
-   
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
+    public void testJaxb() throws Exception {
+        JAXBContext.newInstance(String.class);
+    }
 
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
+    @Test
+    public void simpleTest() {
+        assertNotNull(status);
+    }
 
-        System.out.println("Welcome, " + name + "!");
-
-        scanner.close();
+    @PreDestroy
+    public void cleanup() {
+        status = null;
     }
 }
